@@ -16,7 +16,7 @@
       <div class="container">
          <div class="cart">
             <div class="col-md-12 col-lg-10 mx-auto">
-               <div class="cart-item">
+               <div class="cart-item" id="phone-card">
                   <div class="row">
                      <div class="col-md-7 center-item">
                         <img src="images/product-1.png" alt="">
@@ -29,13 +29,13 @@
                            <input type="text" class="form-control text-center" id="phn-purse-num" value="1">
                            <button class="btn btn-default" id="phn-num-inc"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <h5>$<span id="phoneCost">1219</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item" id="phn-remove-btn" >
                      </div>
                   </div>
                </div>
 
-               <div class="cart-item">
+               <div class="cart-item" id="case-card">
                   <div class="row">
                      <div class="col-md-7 center-item mx-auto">
                         <img src="images/product-2.png" alt="">
@@ -48,8 +48,8 @@
                            <button class="btn btn-default" id="case-num-inc"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$59</h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <h5>$<span id="caseCost">59</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item" id="case-remove-btn">
                      </div>
                   </div>
                </div>
@@ -64,9 +64,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$<span id="subtotal">1278</span></h5>
+                        <h5>$<span id="tax">12</span> </h5><!--9+3-->
+                        <h5>$<span id="total">1290</span></h5>
                      </div>
                   </div>
                </div>
@@ -80,28 +80,75 @@
 
    <script>
       
-      function counter(targetName , num, changeIn) {
+      function counter(targetName , numIncreaseBy, changeIn) {
          if (changeIn === "input") {
             let purseNumber = parseInt(document.getElementById(targetName).value);
-            purseNumber = purseNumber + (num);
+            purseNumber = purseNumber + (numIncreaseBy);
             document.getElementById(targetName).value = purseNumber;
          }
-         
+         else if (changeIn === "text") {
+            let purseNumber = parseInt(document.getElementById(targetName).innerText);
+            purseNumber = purseNumber + (numIncreaseBy);
+            document.getElementById(targetName).innerText = purseNumber;
+         }
       }
-
+      var phnVat = 9;
+      var caseVat = 3;
       document.getElementById("phn-num-inc").addEventListener("click", function(){
          counter("phn-purse-num", 1, "input");
+         counter("phoneCost", 1219, "text");
+         counter("subtotal", 1219, "text");
+         counter("tax", phnVat, "text");
+         var addedCost = 1219 + phnVat;
+         counter("total", addedCost, "text");
       })
       document.getElementById("phn-num-dec").addEventListener("click", function(){
          counter("phn-purse-num", -1, "input");
+         counter("phoneCost", -1219, "text");
+         counter("subtotal", -1219, "text");
+         counter("tax", -(phnVat), "text");
+         var addedCost = -(1219 + phnVat);
+         counter("total", addedCost, "text");
       })
       document.getElementById("case-num-inc").addEventListener("click", function(){
          counter("case-purse-num", 1, "input");
+         counter("caseCost", 59, "text");
+         counter("subtotal", 59, "text");
+         counter("tax", 3, "text");
+         var addedCost = 59 + 3;
+         counter("total", addedCost, "text");
       })
       document.getElementById("case-num-dec").addEventListener("click", function(){
          counter("case-purse-num", -1, "input");
+         counter("caseCost", -59, "text");
+         counter("subtotal", -59, "text");
+         counter("tax", -(caseVat), "text");
+         var addedCost = -(59 + caseVat);
+         counter("total", addedCost, "text");
       })
-      
+      document.getElementById("phn-remove-btn").addEventListener("click", function(){
+         document.getElementById("phone-card").style.display = "none";
+         var costForPhone = parseInt(document.getElementById("phoneCost").innerText);
+         var phoneOrderNumber = parseInt(document.getElementById("phn-purse-num").value);
+         var newSubTotal = (parseInt(document.getElementById("subtotal").innerText)) - costForPhone;
+         document.getElementById("subtotal").innerText = newSubTotal;
+         var newerTax = (parseInt(document.getElementById("tax").innerText)) - (phoneOrderNumber*phnVat);
+         document.getElementById("tax").innerText = newerTax;
+         var newerTotal = (parseInt(document.getElementById("total").innerText)) - (costForPhone + (phoneOrderNumber*phnVat));
+         document.getElementById("total").innerText = newerTotal;
+      })
+      document.getElementById("case-remove-btn").addEventListener("click", function(){
+         document.getElementById("case-card").style.display = "none";
+         
+         var costForCase = parseInt(document.getElementById("caseCost").innerText);
+         var caseOrderNumber = parseInt(document.getElementById("case-purse-num").value);
+         var newSubTotal = (parseInt(document.getElementById("subtotal").innerText)) - costForCase;
+         document.getElementById("subtotal").innerText = newSubTotal;
+         var newerTax = (parseInt(document.getElementById("tax").innerText)) - (caseOrderNumber*caseVat);
+         document.getElementById("tax").innerText = newerTax;
+         var newerTotal = (parseInt(document.getElementById("total").innerText)) - (costForCase + (caseOrderNumber*caseVat));
+         document.getElementById("total").innerText = newerTotal;
+      })
    </script>
 
 </body>
