@@ -25,9 +25,9 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button class="btn btn-default" id="phn-num-dec" ><i class="fas fa-minus"></i></button>
+                           <input type="text" class="form-control text-center" id="phn-purse-num" value="1">
+                           <button class="btn btn-default" id="phn-num-inc"><i class="fas fa-plus"></i></button>
                         </div>
                         <h5>$1219</h5>
                         <img src="images/remove.png" alt="" class="remove-item">
@@ -43,9 +43,9 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button class="btn btn-default" id="case-num-dec"><i class="fas fa-minus"></i></button>
+                           <input type="text" class="form-control text-center" id="case-purse-num" value="1">
+                           <button class="btn btn-default" id="case-num-inc"><i class="fas fa-plus"></i></button>
 
                         </div>
                         <h5>$59</h5>
@@ -77,6 +77,33 @@
          </div>
       </div>
    </section>
+
+   <script>
+      
+      function counter(targetName , num, changeIn) {
+         if (changeIn === "input") {
+            let purseNumber = parseInt(document.getElementById(targetName).value);
+            purseNumber = purseNumber + (num);
+            document.getElementById(targetName).value = purseNumber;
+         }
+         
+      }
+
+      document.getElementById("phn-num-inc").addEventListener("click", function(){
+         counter("phn-purse-num", 1, "input");
+      })
+      document.getElementById("phn-num-dec").addEventListener("click", function(){
+         counter("phn-purse-num", -1, "input");
+      })
+      document.getElementById("case-num-inc").addEventListener("click", function(){
+         counter("case-purse-num", 1, "input");
+      })
+      document.getElementById("case-num-dec").addEventListener("click", function(){
+         counter("case-purse-num", -1, "input");
+      })
+      
+   </script>
+
 </body>
 
 </html>
