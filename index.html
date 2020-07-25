@@ -79,7 +79,8 @@
    </section>
 
    <script>
-      
+      var phnVat = 9;
+      var caseVat = 3;
       function counter(targetName , numIncreaseBy, changeIn) {
          if (changeIn === "input") {
             let purseNumber = parseInt(document.getElementById(targetName).value);
@@ -92,62 +93,51 @@
             document.getElementById(targetName).innerText = purseNumber;
          }
       }
-      var phnVat = 9;
-      var caseVat = 3;
+      function caller(targetName1, targetName2, numForInput, numForText, subTax, varyingCost) {
+         counter(targetName1, numForInput, "input");
+         counter(targetName2, numForText, "text");
+         counter("subtotal", numForText, "text");
+         counter("tax", subTax, "text");
+         counter("total", varyingCost, "text");
+      }
+
       document.getElementById("phn-num-inc").addEventListener("click", function(){
-         counter("phn-purse-num", 1, "input");
-         counter("phoneCost", 1219, "text");
-         counter("subtotal", 1219, "text");
-         counter("tax", phnVat, "text");
          var addedCost = 1219 + phnVat;
-         counter("total", addedCost, "text");
+         caller("phn-purse-num", "phoneCost", 1, 1219, phnVat, addedCost);
       })
       document.getElementById("phn-num-dec").addEventListener("click", function(){
-         counter("phn-purse-num", -1, "input");
-         counter("phoneCost", -1219, "text");
-         counter("subtotal", -1219, "text");
-         counter("tax", -(phnVat), "text");
          var addedCost = -(1219 + phnVat);
-         counter("total", addedCost, "text");
+         caller("phn-purse-num", "phoneCost", -1, -1219, -(phnVat), addedCost);
+
       })
       document.getElementById("case-num-inc").addEventListener("click", function(){
-         counter("case-purse-num", 1, "input");
-         counter("caseCost", 59, "text");
-         counter("subtotal", 59, "text");
-         counter("tax", 3, "text");
          var addedCost = 59 + 3;
-         counter("total", addedCost, "text");
+         caller("case-purse-num", "caseCost", 1, 59, caseVat, addedCost);
+         
       })
       document.getElementById("case-num-dec").addEventListener("click", function(){
-         counter("case-purse-num", -1, "input");
-         counter("caseCost", -59, "text");
-         counter("subtotal", -59, "text");
-         counter("tax", -(caseVat), "text");
          var addedCost = -(59 + caseVat);
-         counter("total", addedCost, "text");
-      })
-      document.getElementById("phn-remove-btn").addEventListener("click", function(){
-         document.getElementById("phone-card").style.display = "none";
-         var costForPhone = parseInt(document.getElementById("phoneCost").innerText);
-         var phoneOrderNumber = parseInt(document.getElementById("phn-purse-num").value);
-         var newSubTotal = (parseInt(document.getElementById("subtotal").innerText)) - costForPhone;
-         document.getElementById("subtotal").innerText = newSubTotal;
-         var newerTax = (parseInt(document.getElementById("tax").innerText)) - (phoneOrderNumber*phnVat);
-         document.getElementById("tax").innerText = newerTax;
-         var newerTotal = (parseInt(document.getElementById("total").innerText)) - (costForPhone + (phoneOrderNumber*phnVat));
-         document.getElementById("total").innerText = newerTotal;
-      })
-      document.getElementById("case-remove-btn").addEventListener("click", function(){
-         document.getElementById("case-card").style.display = "none";
+         caller("case-purse-num", "caseCost", -1, -59, -(caseVat), addedCost);
          
-         var costForCase = parseInt(document.getElementById("caseCost").innerText);
-         var caseOrderNumber = parseInt(document.getElementById("case-purse-num").value);
-         var newSubTotal = (parseInt(document.getElementById("subtotal").innerText)) - costForCase;
+      })
+
+      function remover(cardName, productCost, productPurseNumber, productVat) {
+         document.getElementById(cardName).style.display = "none";
+         var costForProduct = parseInt(document.getElementById(productCost).innerText);
+         var productOrderNumber = parseInt(document.getElementById(productPurseNumber).value);
+         var newSubTotal = (parseInt(document.getElementById("subtotal").innerText)) - costForProduct;
          document.getElementById("subtotal").innerText = newSubTotal;
-         var newerTax = (parseInt(document.getElementById("tax").innerText)) - (caseOrderNumber*caseVat);
+         var newerTax = (parseInt(document.getElementById("tax").innerText)) - (productOrderNumber*productVat);
          document.getElementById("tax").innerText = newerTax;
-         var newerTotal = (parseInt(document.getElementById("total").innerText)) - (costForCase + (caseOrderNumber*caseVat));
+         var newerTotal = (parseInt(document.getElementById("total").innerText)) - (costForProduct + (productOrderNumber*productVat));
          document.getElementById("total").innerText = newerTotal;
+      }
+
+      document.getElementById("phn-remove-btn").addEventListener("click", function(){
+         remover("phone-card", "phoneCost", "phn-purse-num", phnVat)
+      })
+      document.getElementById("case-remove-btn").addEventListener("click", function(){        
+         remover("case-card", "caseCost", "case-purse-num", caseVat)
       })
    </script>
 
