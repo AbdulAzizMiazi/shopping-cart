@@ -26,7 +26,7 @@
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
                            <button class="btn btn-default" id="phn-num-dec" ><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" id="phn-purse-num" value="1">
+                           <input type="text" class="form-control text-center" id="phn-purse-num" value="1" min ="0" >
                            <button class="btn btn-default" id="phn-num-inc"><i class="fas fa-plus"></i></button>
                         </div>
                         <h5>$<span id="phoneCost">1219</span></h5>
@@ -65,7 +65,7 @@
 
                      <div class="col-md-4 status">
                         <h5>$<span id="subtotal">1278</span></h5>
-                        <h5>$<span id="tax">12</span> </h5><!--9+3-->
+                        <h5>$<span id="tax">12</span> </h5>
                         <h5>$<span id="total">1290</span></h5>
                      </div>
                   </div>
@@ -107,18 +107,25 @@
       })
       document.getElementById("phn-num-dec").addEventListener("click", function(){
          var addedCost = -(1219 + phnVat);
-         caller("phn-purse-num", "phoneCost", -1, -1219, -(phnVat), addedCost);
-
+         let purseNumber = parseInt(document.getElementById("phn-purse-num").value);
+         if (purseNumber > 0) {
+            caller("phn-purse-num", "phoneCost", -1, -1219, -(phnVat), addedCost);  
+         }else{
+            alert("You cannot enter negative value");
+         }
       })
       document.getElementById("case-num-inc").addEventListener("click", function(){
          var addedCost = 59 + 3;
-         caller("case-purse-num", "caseCost", 1, 59, caseVat, addedCost);
-         
+         caller("case-purse-num", "caseCost", 1, 59, caseVat, addedCost);        
       })
       document.getElementById("case-num-dec").addEventListener("click", function(){
          var addedCost = -(59 + caseVat);
-         caller("case-purse-num", "caseCost", -1, -59, -(caseVat), addedCost);
-         
+         let purseNumber = parseInt(document.getElementById("case-purse-num").value);
+         if (purseNumber > 0) {
+            caller("case-purse-num", "caseCost", -1, -59, -(caseVat), addedCost);
+         }else{
+            alert("You cannot enter negative value");
+         }        
       })
 
       function remover(cardName, productCost, productPurseNumber, productVat) {
